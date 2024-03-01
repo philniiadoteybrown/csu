@@ -1,0 +1,17 @@
+<option selected value="">Choose...</option>
+                          <option value="Greater Accra">Greater Accra</option>
+                          <option value="Central">Central</option>
+                          <option value="Western">Western</option>
+                          <option value="Eastern">Eastern</option>
+                          <option value="Western North">Western North</option>
+                          <option value="Oti">Oti</option>
+                          <option value="Volta">Volta</option>
+                          <option value="Ashanti">Ashanti</option>
+                          <option value="Bono">Bono</option>
+                          <option value="Brong Ahafo">Brong Ahafo</option>
+                          <option value="Ahafo North">Ahafo North</option>
+                          <option value="North East">North East</option>
+                          <option value="Savannah">Savannah</option>
+                          <option value="Northern">Northern</option>
+                          <option value="Upper West">Upper West</option>
+                          <option value="Upper East">Upper East</option>
