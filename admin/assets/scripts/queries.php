@@ -12,30 +12,30 @@ if(isset($_POST['addstaffprofile'])){
       $rank=mysqli_real_escape_string($conn, ($_POST['rank']));
       $position=mysqli_real_escape_string($conn, ($_POST['position']));
 
-           /* $query="SELECT * FROM cs_departments WHERE dept_id='$department'";
+           /* $query="SELECT * FROM ws_departments WHERE dept_id='$department'";
             $search_result=mysqli_query($conn, $query);
             while($fetch = mysqli_fetch_assoc($search_result)){
             $dept1=$fetch['dept_name'];
             }*/
-            $query_="SELECT * FROM cs_admin_unit WHERE adu_id='$unit'";
+            $query_="SELECT * FROM ws_admin_unit WHERE adu_id='$unit'";
             $search_result_=mysqli_query($conn, $query_);
             while($fetch_ = mysqli_fetch_assoc($search_result_)){
            $unit=$fetch_['adu_name'];
             }
-            $query="SELECT * FROM cs_rank WHERE rank_id='$rank'";
+            $query="SELECT * FROM ws_rank WHERE rank_id='$rank'";
             $search_result=mysqli_query($conn, $query);
             while($fetch = mysqli_fetch_assoc($search_result)){
             $rank1=$fetch['rank_name'];
             }
 
       
-          $query = "SELECT * FROM cs_staffprofile WHERE staff_id='".$staffid."'"; 
+          $query = "SELECT * FROM ws_staffprofile WHERE staff_id='".$staffid."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          $warning="Record not saved. Record already exist";
             }
               else{
-           $query="INSERT INTO `cs_staffprofile`(`staff_id`, `fname`, `oname`, `lname`, `unit`, `rank`, `position`)  VALUES ('".$staffid."','".$fname."','".$oname."', '".$lname."','".$unit."','".$rank1."', '".$position."')";
+           $query="INSERT INTO `ws_staffprofile`(`staff_id`, `fname`, `oname`, `lname`, `unit`, `rank`, `position`)  VALUES ('".$staffid."','".$fname."','".$oname."', '".$lname."','".$unit."','".$rank1."', '".$position."')";
             $result=mysqli_query($conn, $query);
 
              if ($result){ 
@@ -58,9 +58,9 @@ if(isset($_POST['adduser'])){
       $pass2=mysqli_real_escape_string($conn, ($_POST['password-confirm']));
       $reset=mysqli_real_escape_string($conn, ($_POST['reset']));
 
-$query="SELECT username FROM cs_users WHERE username='$username'";
+$query="SELECT username FROM ws_users WHERE username='$username'";
 $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
 echo'<script>alert("Username already exist")</script>';
             }
             elseif($pass != $pass2)
@@ -73,7 +73,7 @@ echo'<script>alert("Username already exist")</script>';
             }
 
               else{
-            $query="INSERT INTO `cs_users`(`username`, `password`, `resetkey`) VALUES ('".$username."',md5($pass),md5($reset))";
+            $query="INSERT INTO `ws_users`(`username`, `password`, `resetkey`) VALUES ('".$username."',md5($pass),md5($reset))";
             $result=mysqli_query($conn, $query);
             if ($result){
              echo'<script>alert("Saved successfully");
@@ -98,9 +98,9 @@ echo'<script>alert("Username already exist")</script>';
       $pass=md5($password);
       $pass1="";
 
-      $check_login="SELECT * FROM cs_users WHERE username='".$username."' AND password='".$pass."'";
+      $check_login="SELECT * FROM ws_users WHERE username='".$username."' AND password='".$pass."'";
       $check_result=mysqli_query($conn, $check_login);
-      if(mysqli_num_rocs($check_result)==1){
+      if(mysqli_num_rows($check_result)==1){
        while($row=mysqli_fetch_assoc($check_result)){
             $_SESSION['login']='true';
             $_SESSION['username']=$username;
@@ -125,7 +125,7 @@ echo'<script>alert("Username already exist")</script>';
                
         
       
-      elseif(mysqli_num_rocs($check_result)<=0){
+      elseif(mysqli_num_rows($check_result)<=0){
             echo '<script>alert("Wrong Username or Password");
                  window.location="html/index.php";
                 </script>';
@@ -155,7 +155,7 @@ echo'<script>alert("Username already exist")</script>';
               if($update_result){
                 // $check_login="SELECT * FROM dotusers WHERE username='admin'";
                 // $check_result=mysqli_query($conn, $check_login);
-                // if(mysqli_num_rocs($check_result)==1){
+                // if(mysqli_num_rows($check_result)==1){
                 if($username=='admin' || $username='superadmin'){
                 // echo '<script>
                 // alert("Password Changed!");
@@ -165,7 +165,7 @@ echo'<script>alert("Username already exist")</script>';
                 // else{
                 $query = "SELECT * FROM dotmmda_profile WHERE id='1'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs>0)
+            if ($exist->num_rows>0)
             {
                  echo '<script>
                  alert("Password Changed!");
@@ -215,7 +215,7 @@ echo'<script>alert("Username already exist")</script>';
    
         $query = "SELECT * FROM dotmmda_profile WHERE id='1'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs>0)
+            if ($exist->num_rows>0)
             {
          $qry="UPDATE `dotmmda_profile` SET `mmda_name`='".$mmda_name."',`mmda_ini`='".$mmda_ini."', `email`='".$email."', `website`='".$website."', `phone`='".$phone."', `address`='".$address."',`logo`='".$file_data."' WHERE id='1'";
     $result=mysqli_query($conn, $qry);
@@ -256,7 +256,7 @@ echo'<script>alert("Username already exist")</script>';
       $security=mysqli_real_escape_string($conn, $_POST['pkey']);
       $check_login="SELECT * FROM dotusers WHERE username='$username' AND recovery_key='".md5($security)."'";
       $check_result=mysqli_query($conn, $check_login);
-      if(mysqli_num_rocs($check_result)>0){
+      if(mysqli_num_rows($check_result)>0){
         while($row=mysqli_fetch_assoc($check_result)){
             $pass=substr(str_shuffle(str_repeat("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",6)),0,6);//Generate random password here
          $update="UPDATE dotusers SET password='".md5($pass)."' WHERE username='".$username."'";
@@ -296,7 +296,7 @@ echo'<script>alert("Username already exist")</script>';
       else{
       $check_login="SELECT * FROM dotusers WHERE user_id='".$id."' AND password='".md5($oldpass)."'";
       $check_result=mysqli_query($conn, $check_login);
-      if(mysqli_num_rocs($check_result)==1){
+      if(mysqli_num_rows($check_result)==1){
        while($row=mysqli_fetch_assoc($check_result)){
         $_SESSION['oldp']=$row['password'];
          $update="UPDATE dotusers SET password='".md5($newpass)."', fname='".$fname."', lname='".$lname."', recovery_key='".md5($passrecover)."' WHERE user_id='$id'";
@@ -389,13 +389,13 @@ echo'<script>alert("Username already exist")</script>';
      //  $menu_location=mysqli_real_escape_string($conn, ($_POST['menu_location']));
       
       
-          $query = "SELECT * FROM cs_menu WHERE menu_name='".$menu_name."'"; 
+          $query = "SELECT * FROM ws_menu WHERE menu_name='".$menu_name."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
             $warning2="Record not saved. Record already exist";
             }
               else{
-           $query="INSERT INTO `cs_menu`(`menu_name`, `menu_icon`) VALUES ('".$menu_name."','".$menu_icon."')";
+           $query="INSERT INTO `ws_menu`(`menu_name`, `menu_icon`) VALUES ('".$menu_name."','".$menu_icon."')";
             $result=mysqli_query($conn, $query);
             if ($result){ 
             echo'<script>alert("Record saved successfully");
@@ -419,7 +419,7 @@ echo'<script>alert("Username already exist")</script>';
        $menu_icon=mysqli_real_escape_string($conn, ($_POST['menu_icon']));
       
       
-           $query="UPDATE `cs_menu` SET `menu_name`='".$menu_name."',`menu_icon`='".$menu_icon."' WHERE `menu_id`='".$menu_id."'";
+           $query="UPDATE `ws_menu` SET `menu_name`='".$menu_name."',`menu_icon`='".$menu_icon."' WHERE `menu_id`='".$menu_id."'";
             $result=mysqli_query($conn, $query);
             if ($result){
              echo'<script>alert("Updated successfully");
@@ -435,7 +435,7 @@ echo'<script>alert("Username already exist")</script>';
 if(isset($_POST['changestatusE'])){
        $menu_id=mysqli_real_escape_string($conn, ($_POST['menu_id']));      
       
-           $query="UPDATE `cs_menu` SET `menu_status`='Disabled' WHERE `menu_id`='".$menu_id."'";
+           $query="UPDATE `ws_menu` SET `menu_status`='Disabled' WHERE `menu_id`='".$menu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -448,7 +448,7 @@ if(isset($_POST['changestatusE'])){
 if(isset($_POST['changestatusD'])){
        $menu_id=mysqli_real_escape_string($conn, ($_POST['menu_id']));      
       
-           $query="UPDATE `cs_menu` SET `menu_status`='Enabled' WHERE `menu_id`='".$menu_id."'";
+           $query="UPDATE `ws_menu` SET `menu_status`='Enabled' WHERE `menu_id`='".$menu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -468,13 +468,13 @@ if(isset($_POST['changestatusD'])){
       $submenu_order=mysqli_real_escape_string($conn, ($_POST['submenu_display']));
       /*$manunit=mysqli_real_escape_string($conn, ($_POST['man_unit']));*/
       
-          $query = "SELECT * FROM cs_submenu WHERE submenu_name='".$submenu_name."' AND menu_id='".$menu_id."'"; 
+          $query = "SELECT * FROM ws_submenu WHERE submenu_name='".$submenu_name."' AND menu_id='".$menu_id."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          $warning="Record not saved. Record already exist";
             }
               else{
-           $query="INSERT INTO `cs_submenu`(`menu_id`, `submenu_name`, `submenu_url`, `submenu_order`) VALUES ('".$menu_id."','".$submenu_name."','".$menu_url."', '".$submenu_order."')";
+           $query="INSERT INTO `ws_submenu`(`menu_id`, `submenu_name`, `submenu_url`, `submenu_order`) VALUES ('".$menu_id."','".$submenu_name."','".$menu_url."', '".$submenu_order."')";
             $result=mysqli_query($conn, $query);
 
                 $lastID = mysqli_insert_id($conn);
@@ -482,7 +482,7 @@ if(isset($_POST['changestatusD'])){
                 foreach ($_POST['unit'] as $key => $value) {
                 $unit=$_POST['unit'][$key];
 
-                $subquery="INSERT INTO `cs_submenu_department`(`menu_id`, `submenu_id`, `adu_id`)  VALUES ('".$menu_id."','".$lastID."','".$unit."')";
+                $subquery="INSERT INTO `ws_submenu_department`(`menu_id`, `submenu_id`, `adu_id`)  VALUES ('".$menu_id."','".$lastID."','".$unit."')";
                 $subresult=mysqli_query($conn, $subquery);
                 }
 
@@ -514,7 +514,7 @@ if(isset($_POST['changestatusD'])){
       /*$manunit=mysqli_real_escape_string($conn, ($_POST['man_unit']));*/
       
           
-           $query="UPDATE `cs_submenu` SET `menu_id`='".$menu_id."', `submenu_name`='".$submenu_name."', `submenu_url`='".$menu_url."', `submenu_order`='".$submenu_order."' WHERE submenu_id='".$submenu_id."'";
+           $query="UPDATE `ws_submenu` SET `menu_id`='".$menu_id."', `submenu_name`='".$submenu_name."', `submenu_url`='".$menu_url."', `submenu_order`='".$submenu_order."' WHERE submenu_id='".$submenu_id."'";
             $result=mysqli_query($conn, $query);
 
              $lastID = mysqli_insert_id($conn);
@@ -522,10 +522,10 @@ if(isset($_POST['changestatusD'])){
                 foreach ($_POST['unit'] as $key => $value) {
                 $manunit=$_POST['unit'][$key];
 
-                $query = "SELECT * FROM cs_submenu_department WHERE adu_id='".$manunit."' AND submenu_id='".$submenu_id."'"; 
+                $query = "SELECT * FROM ws_submenu_department WHERE adu_id='".$manunit."' AND submenu_id='".$submenu_id."'"; 
           $exist=mysqli_query($conn, $query);
-            if (!$exist->num_rocs){
-         $subquery="INSERT INTO `cs_submenu_department`(`menu_id`, `submenu_id`, `adu_id`)  VALUES ('".$menu_id."','".$submenu_id."','".$manunit."')";
+            if (!$exist->num_rows){
+         $subquery="INSERT INTO `ws_submenu_department`(`menu_id`, `submenu_id`, `adu_id`)  VALUES ('".$menu_id."','".$submenu_id."','".$manunit."')";
                 $subresult=mysqli_query($conn, $subquery);
             
                 }
@@ -554,7 +554,7 @@ if(isset($_POST['changestatusD'])){
 if(isset($_POST['changestatusEsub'])){
        $submenu_id=mysqli_real_escape_string($conn, ($_POST['submenu_id']));      
       
-           $query="UPDATE `cs_submenu` SET `submenu_status`='Disabled' WHERE `submenu_id`='".$submenu_id."'";
+           $query="UPDATE `ws_submenu` SET `submenu_status`='Disabled' WHERE `submenu_id`='".$submenu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -567,7 +567,7 @@ if(isset($_POST['changestatusEsub'])){
 if(isset($_POST['changestatusDsub'])){
        $submenu_id=mysqli_real_escape_string($conn, ($_POST['submenu_id']));      
       
-           $query="UPDATE `cs_submenu` SET `submenu_status`='Enabled' WHERE `submenu_id`='".$submenu_id."'";
+           $query="UPDATE `ws_submenu` SET `submenu_status`='Enabled' WHERE `submenu_id`='".$submenu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -581,7 +581,7 @@ if(isset($_POST['changestatusDsub'])){
   if(isset($_POST['changedisplayEsub'])){
        $submenu_id=mysqli_real_escape_string($conn, ($_POST['submenu_id']));      
       
-           $query="UPDATE `cs_submenu` SET `submenu_display`='No' WHERE `submenu_id`='".$submenu_id."'";
+           $query="UPDATE `ws_submenu` SET `submenu_display`='No' WHERE `submenu_id`='".$submenu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -594,7 +594,7 @@ if(isset($_POST['changestatusDsub'])){
 if(isset($_POST['changedisplayDsub'])){
        $submenu_id=mysqli_real_escape_string($conn, ($_POST['submenu_id']));      
       
-           $query="UPDATE `cs_submenu` SET `submenu_display`='Yes' WHERE `submenu_id`='".$submenu_id."'";
+           $query="UPDATE `ws_submenu` SET `submenu_display`='Yes' WHERE `submenu_id`='".$submenu_id."'";
             $result=mysqli_query($conn, $query);
            if ($result){
             $success="Record updated successfully";
@@ -610,13 +610,13 @@ if(isset($_POST['changedisplayDsub'])){
   if(isset($_POST['addrole'])){
       $role_name=mysqli_real_escape_string($conn, ($_POST['role_name']));
       
-          $query = "SELECT * FROM cs_roles WHERE role_name='".$role_name."'"; 
+          $query = "SELECT * FROM ws_roles WHERE role_name='".$role_name."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
           $warning="Record not saved. Record already exist";
             }
               else{
-           $query="INSERT INTO `cs_roles`(`role_name`) VALUES ('".$role_name."')";
+           $query="INSERT INTO `ws_roles`(`role_name`) VALUES ('".$role_name."')";
             $result=mysqli_query($conn, $query);
             if ($result){
              $success="Record successfully saved!";
@@ -636,7 +636,7 @@ if(isset($_POST['changedisplayDsub'])){
     $user_id=mysqli_real_escape_string($conn, ($_POST['user_id']));
     if($user_id!=''){
       
-      $delquery="DELETE FROM `cs_menu_useraccess` WHERE `user_id`='$user_id'";
+      $delquery="DELETE FROM `ws_menu_useraccess` WHERE `user_id`='$user_id'";
       $delresult=mysqli_query($conn, $delquery);
 
       foreach ($_POST['user_permission'] as $key => $value) {
@@ -644,7 +644,7 @@ if(isset($_POST['changedisplayDsub'])){
         $menu_id=$_POST['menu_id'][$key];
         $submenu_id=$_POST['submenu_id'][$key];
 
-        $query="INSERT INTO `cs_menu_useraccess`(`menu_id`, `submenu_id`, `user_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$user_id."','".$user_permission."')";
+        $query="INSERT INTO `ws_menu_useraccess`(`menu_id`, `submenu_id`, `user_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$user_id."','".$user_permission."')";
             $result=mysqli_query($conn, $query);
             
       }
@@ -664,7 +664,7 @@ if(isset($_POST['changedisplayDsub'])){
     $role_id=mysqli_real_escape_string($conn, ($_POST['role_id']));
     if($role_id!=''){
       
-      $delquery="DELETE FROM `cs_menu_roleaccess` WHERE `role_id`='$role_id'";
+      $delquery="DELETE FROM `ws_menu_roleaccess` WHERE `role_id`='$role_id'";
       $delresult=mysqli_query($conn, $delquery);
 
       foreach ($_POST['user_permission'] as $key => $value) {
@@ -672,7 +672,7 @@ if(isset($_POST['changedisplayDsub'])){
         $menu_id=$_POST['menu_id'][$key];
         $submenu_id=$_POST['submenu_id'][$key];
 
-        $query="INSERT INTO `cs_menu_roleaccess`(`menu_id`, `submenu_id`, `role_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$role_id."','".$user_permission."')";
+        $query="INSERT INTO `ws_menu_roleaccess`(`menu_id`, `submenu_id`, `role_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$role_id."','".$user_permission."')";
             $result=mysqli_query($conn, $query);
             
       }
@@ -689,7 +689,7 @@ if(isset($_POST['saverolepermadmin'])){
     $role_id=mysqli_real_escape_string($conn, ($_POST['role_id']));
     if($role_id!=''){
       
-      $delquery="DELETE FROM `cs_menu_roleaccess` WHERE `role_id`='$role_id'";
+      $delquery="DELETE FROM `ws_menu_roleaccess` WHERE `role_id`='$role_id'";
       $delresult=mysqli_query($conn, $delquery);
 
       foreach ($_POST['user_permission'] as $key => $value) {
@@ -697,14 +697,14 @@ if(isset($_POST['saverolepermadmin'])){
         $menu_id=$_POST['menu_id'][$key];
         $submenu_id=$_POST['submenu_id'][$key];
 
-        $query="INSERT INTO `cs_menu_roleaccess`(`menu_id`, `submenu_id`, `role_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$role_id."','".$user_permission."')";
+        $query="INSERT INTO `ws_menu_roleaccess`(`menu_id`, `submenu_id`, `role_id`, `user_permission`) VALUES ('".$menu_id."','".$submenu_id."','".$role_id."','".$user_permission."')";
             $result=mysqli_query($conn, $query);
             
       }
       if ($result){
         $querymmda = "SELECT * FROM dotmmda_profile"; 
           $exist=mysqli_query($conn, $querymmda);
-            if ($exist->num_rocs>0){
+            if ($exist->num_rows>0){
              echo'<script>alert("Updated successfully");
              window.location="index.php";
              </script>';
@@ -759,7 +759,7 @@ if(isset($_POST['update_user'])){
       
           $query = "SELECT * FROM dotfile_category WHERE filecat_name='".$filecat_name."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Category already exist")</script>';
             }
               else{
@@ -810,7 +810,7 @@ if(isset($_POST['update_user'])){
       
           $query = "SELECT * FROM dotmanagement_unit WHERE manunit_name='".$manunit_name."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Name already exist")</script>';
             }
               else{
@@ -838,7 +838,7 @@ if(isset($_POST['update_user'])){
       
           $query = "SELECT * FROM dotadministrative_files WHERE filename='".$filename."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("File name already exist")</script>';
             }
               else{
@@ -853,7 +853,7 @@ if(isset($_POST['update_user'])){
 
                   $userquery="SELECT * FROM `dotfile_category` WHERE filecat_id='".$filecat."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $filecategory_=$row['filecat_name'];
             }
@@ -936,7 +936,7 @@ if (is_dir($old_folder)) {
       
           $query = "SELECT * FROM dotpersonal_files WHERE filename='".$filename."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("File name already exist")</script>';
             }
               else{
@@ -983,7 +983,7 @@ if (is_dir($old_folder)) {
       
           $query = "SELECT * FROM dotreceive_mail WHERE registry_number='".$registry_number."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Registry number already exist")</script>';
 
              header('location: add_incoming_mail.php');
@@ -1022,7 +1022,7 @@ if (is_dir($old_folder)) {
       
           $query = "SELECT * FROM dotreceive_mail WHERE registry_number='".$registry_number."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Registry number already exist");
          window.location="add_incoming_mail.php";
          </script>';
@@ -1261,7 +1261,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
               $adminfile_id=$row['adminfile_id'];
@@ -1339,7 +1339,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
               $adminfile_id=$row['adminfile_id'];
@@ -1403,7 +1403,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
             }
@@ -1551,7 +1551,7 @@ if (is_dir($old_folder)) {
       
           $query = "SELECT * FROM dotreceive_mail WHERE registry_number='".$registry_number."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Registry number already exist")</script>';
 
              header('location: add_outgoing_mail.php');
@@ -1590,7 +1590,7 @@ if (is_dir($old_folder)) {
       
           $query = "SELECT * FROM dotreceive_mail WHERE registry_number='".$registry_number."'"; 
           $exist=mysqli_query($conn, $query);
-            if ($exist->num_rocs==1){
+            if ($exist->num_rows==1){
          echo'<script>alert("Registry number already exist")</script>';
 
              header('location: add_outgoing_mail.php');
@@ -1683,7 +1683,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
               $adminfile_id=$row['adminfile_id'];
@@ -1761,7 +1761,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
               $adminfile_id=$row['adminfile_id'];
@@ -1825,7 +1825,7 @@ if (is_dir($old_folder)) {
 
               $userquery="SELECT * FROM `dotadministrative_files` WHERE filenumber='".$fileNumber."'";
             $usersearch_result=mysqli_query($conn, $userquery);
-            if(mysqli_num_rocs($usersearch_result)==1){
+            if(mysqli_num_rows($usersearch_result)==1){
        while($row=mysqli_fetch_assoc($usersearch_result)){
               $adminfilename=$row['filename'];
             }
@@ -1946,7 +1946,7 @@ $hash_code=hash("sha512", $code);
 
  $query="SELECT * FROM dotactivation_list WHERE code='".$hash_code."' AND status='Active'";
 $result=mysqli_query($conn, $query);
-            if(mysqli_num_rocs($result)==1){
+            if(mysqli_num_rows($result)==1){
        while($row=mysqli_fetch_assoc($result)){
 
         $up="UPDATE dotactivation_list SET `status`='Used' WHERE `code`='".$hash_code."'";

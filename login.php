@@ -38,6 +38,7 @@ else{
             $user=$row['username'];
             $_SESSION['user']=$user;
             $_SESSION['admin_id']=$row['role'];
+            $_SESSION['fn']=$row['fname']." ".$row['lname'];
         }
         if(isset($_REQUEST['rememberme'])){
           setcookie('uname',$_REQUEST['username'], time()+1440);
