@@ -15,7 +15,7 @@
               <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
             </a>
             <ul class="submenu">
-              <li><a href="index.html">Dashboard style 1</a></li>
+              <li><a href="index.php">Dashboard style 1</a></li>
               <li><a href="admin">Administrator</a></li>
             </ul>
           </li>

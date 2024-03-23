@@ -288,5 +288,4 @@ include 'vendors/includes/sessions_head.php';
 	<script src="vendors/scripts/dashboard.js"></script>
 </body>
 
-<!-- Mirrored from themewagon.github.io/deskapp2/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 30 Oct 2023 12:14:08 GMT -->
 </html>
