@@ -1,6 +1,6 @@
 <!-- Basic Page Info -->
   <meta charset="utf-8">
-  <title>CSUMIS - Dashboard</title>
+  <title>CSUMIS</title>
 
   <!-- Site favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/csu_mis_icon.png">

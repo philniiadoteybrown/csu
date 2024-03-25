@@ -1,18 +1,17 @@
-<!-- General JS Scripts -->
-  <script src="assets/js/app.min.js"></script>
-  <!-- JS Libraies -->
-  <script src="assets/bundles/apexcharts/apexcharts.min.js"></script>
-  <!-- Page Specific JS File -->
-  <script src="assets/js/page/index.js"></script>
-  <!-- Template JS File -->
-  <script src="assets/js/scripts.js"></script>
-  <!-- Custom JS File -->
-  <script src="assets/js/custom.js"></script>
-  <script src="assets/js/stop_save.js"></script>
- <script src="assets/bundles/datatables/datatables.min.js"></script>
-<script src="assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
-<script src="assets/bundles/jquery-ui/jquery-ui.min.js"></script>
-<!-- Page Specific JS File -->
-<script src="assets/js/page/datatables.js"></script>
-<script src="assets/js/page/form-wizard.js"></script>
-<script src="assets/bundles/jquery-steps/jquery.steps.min.js"></script>
+<div class="footer-wrap pd-20 mb-20 card-box">
+        CSUMIS - Client Service Unit MIS by BrownSoft. Copyright @ <?php echo date('Y') ?>
+      </div>
+    </div>
+  </div>
+  <!-- js -->
+  <script src="vendors/scripts/core.js"></script>
+  <script src="vendors/scripts/script.min.js"></script>
+  <script src="vendors/scripts/process.js"></script>
+  <script src="vendors/scripts/layout-settings.js"></script>
+  <script src="src/plugins/apexcharts/apexcharts.min.js"></script>
+  <script src="src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+  <script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+  <script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+  <script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+  <script src="vendors/scripts/dashboard.js"></script>
+  <script src="vendors/scripts/advanced-components.js"></script>
